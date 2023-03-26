@@ -1,7 +1,7 @@
-const express = require("express");
-const shared = require("shared");
+import express from "express";
+import setup from "shared/lib/setup";
+import connectMongoDB from "shared/lib/db/mongodb";
 
-const PORT = process.env.PORT || 8081;
 const app = express();
 
 app.get("/greeting", (req, res) => {
@@ -11,4 +11,15 @@ app.get("/greeting", (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Admin service listening on port ${PORT}!`));
+const bootstrap = () => {
+  const { PORT } = setup(app);
+
+  // app.use(routes);
+  connectMongoDB();
+
+  app.listen(PORT, () =>
+    console.log(`Admin service listening on port ${PORT}!`)
+  );
+};
+
+bootstrap();
