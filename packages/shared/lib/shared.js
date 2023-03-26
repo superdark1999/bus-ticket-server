@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-module.exports = shared;
+export default shared;
 
 function shared() {
-    return "Hello from shared";
+  return "Hello from shared";
 }

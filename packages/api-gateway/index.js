@@ -1,5 +1,5 @@
-const express = require("express");
-const shared = require("shared");
+const express = from("express");
+const shared = from("shared");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
