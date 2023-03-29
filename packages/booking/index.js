@@ -1,4 +1,4 @@
-const express = require("express");
+const express = from("express");
 
 const PORT = process.env.PORT || 8082;
 const app = express();
