@@ -1,15 +1,23 @@
-const express = from("express");
+import express from "express";
+import setup from "shared/lib/setup";
+import connectMongoDB from "shared/lib/db/mongodb";
+// import { connectConsumer } from "./kafka/kafka";
 
-const PORT = process.env.PORT || 8082;
+import routes from "./routes";
+
 const app = express();
 
-app.get("/greeting", (req, res) => {
-  console.log(shared());
-  res.send({
-    message: `Hello, ${req.query.name || "World"}!`,
-  });
-});
+const bootstrap = async () => {
+  const { PORT } = setup(app, routes);
 
-app.listen(PORT, () =>
-  console.log(`Booking service listening on port ${PORT}!`)
-);
+  connectMongoDB();
+
+  // connectConsumer();
+  // await connectProducer();
+
+  app.listen(PORT, () =>
+    console.log(`Booking service listening on port ${PORT}!`)
+  );
+};
+
+bootstrap();
