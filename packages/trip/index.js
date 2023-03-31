@@ -2,7 +2,7 @@ import express from "express";
 import setup from "shared/lib/setup";
 import connectMongoDB from "shared/lib/db/mongodb";
 import routes from "./routes";
-import { connectConsumer } from "./kafka/kafka";
+// import { connectConsumer } from "./kafka/kafka";
 
 const app = express();
 
