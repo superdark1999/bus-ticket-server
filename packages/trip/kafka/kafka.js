@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { ADMIN_TOPICS } from "shared/lib/kafka/topic";
+import { TRIP_TOPICS } from "shared/lib/kafka/topic";
 
 const brokers = ["0.0.0.0:9092"];
 
@@ -15,29 +15,29 @@ export const consumer = kafka.consumer({
 const producer = kafka.producer();
 
 function messageCreatedHandler(data) {
-  console.log("admin Got a new message", JSON.stringify(data, null, 2));
+  console.log("trip got a new message", JSON.stringify(data, null, 2));
 
   const message = "data send back";
-  sendMessage(ADMIN_TOPICS.TEMP_BACK_TOPICS, JSON.stringify(message));
+  sendMessage(TRIP_TOPICS.TEMP_BACK_TOPICS, JSON.stringify(message));
 }
 
 const topicToSubscribe = {
-  [ADMIN_TOPICS.TEMP_TOPICS]: messageCreatedHandler,
+  [TRIP_TOPICS.TEMP_TOPICS]: messageCreatedHandler,
 };
 
 export async function connectConsumer() {
   await consumer.connect();
   await producer.connect();
 
-  for (const topic in ADMIN_TOPICS) {
+  for (const topic in TRIP_TOPICS) {
     await consumer.subscribe({
-      topic: ADMIN_TOPICS[topic],
+      topic: TRIP_TOPICS[topic],
       fromBeginning: true,
     });
   }
 
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ topic, message }) => {
       if (!message || !message.value) {
         return;
       }

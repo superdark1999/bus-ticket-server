@@ -2,8 +2,7 @@ import pick from "shared/lib/utils/pick";
 import catchAsync from "shared/lib/utils/catchAsync";
 import { sendMessage } from "../kafka/kafka";
 import coachService from "../services/coach.service";
-import { ADMIN_TOPICS } from "shared/lib/kafka/topic";
-import { consumer } from "../kafka/kafka";
+import { TRIP_TOPICS } from "shared/lib/kafka/topic";
 
 const list = catchAsync(async (req, res) => {
   const filter = pick(req.query, ["startDate"]);
@@ -16,14 +15,7 @@ const list = catchAsync(async (req, res) => {
 const getById = catchAsync(async (req, res) => {
   const message = "message fsdfd";
 
-  await sendMessage(ADMIN_TOPICS.TEMP_TOPICS, JSON.stringify(message));
-
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      // if (ADMIN_TOPICS.TEMP_BACK_TOPICS)
-      console.log("data sdfsdafsd----", data);
-    },
-  });
+  await sendMessage(TRIP_TOPICS.TEMP_TOPICS, JSON.stringify(message));
 
   return res.status(200).json({ name: "jsdkfdsl" });
 });

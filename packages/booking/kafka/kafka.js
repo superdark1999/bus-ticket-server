@@ -1,5 +1,6 @@
 import { Kafka } from "kafkajs";
-import { ADMIN_TOPICS } from "shared/lib/kafka/topic";
+import { Observable, firstValueFrom } from "rxjs";
+import { TRIP_TOPICS } from "shared/lib/kafka/topic";
 
 const brokers = ["0.0.0.0:9092"];
 
@@ -14,27 +15,34 @@ export const consumer = kafka.consumer({
 
 export const producer = kafka.producer();
 
+let observable = new Observable();
+
 function messageCreatedHandler(data) {
+  observable = new Observable((observer) => {
+    observer.next("Hello, world!");
+    observer.complete();
+  });
+
   console.log("booking got a message", JSON.stringify(data, null, 2));
 }
 
 const topicToSubscribe = {
-  [ADMIN_TOPICS.TEMP_BACK_TOPICS]: messageCreatedHandler,
+  [TRIP_TOPICS.TEMP_BACK_TOPICS]: messageCreatedHandler,
 };
 
 export async function connectConsumer() {
   await consumer.connect();
   await producer.connect();
 
-  for (const topic in ADMIN_TOPICS) {
+  for (const topic in TRIP_TOPICS) {
     await consumer.subscribe({
-      topic: ADMIN_TOPICS[topic],
+      topic: TRIP_TOPICS[topic],
       fromBeginning: true,
     });
   }
 
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ topic, message }) => {
       if (!message || !message.value) {
         return;
       }
@@ -60,4 +68,7 @@ export async function sendMessage(topic, message) {
     topic,
     messages: [{ value: message }],
   });
+
+  const value = await firstValueFrom(observable);
+  console.log("value: ", value);
 }
