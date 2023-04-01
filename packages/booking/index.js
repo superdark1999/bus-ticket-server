@@ -1,7 +1,7 @@
 import express from "express";
 import setup from "shared/lib/setup";
 import connectMongoDB from "shared/lib/db/mongodb";
-// import { connectConsumer } from "./kafka/kafka";
+import { connectConsumer } from "./kafka/kafka";
 
 import routes from "./routes";
 
@@ -12,8 +12,7 @@ const bootstrap = async () => {
 
   connectMongoDB();
 
-  // connectConsumer();
-  // await connectProducer();
+  connectConsumer();
 
   app.listen(PORT, () =>
     console.log(`Booking service listening on port ${PORT}!`)
