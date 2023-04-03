@@ -1,6 +1,8 @@
-import authService from "../services/auth.service"
+'use strict'
 
-const create = register(async (req, res) => {
+const authService = require('../services/auth.service')
+
+exports.register = async (req, res) => {
     try {
         const param = {
             enabled: true,
@@ -18,14 +20,15 @@ const create = register(async (req, res) => {
             lastName: req.body.lastName,
         }
 
+
         const result = await authService.register(param);
         return res.status(200).json({ data: result });
     } catch (error) {
         return res.status(500).json({ message: 'Interal Server Error' });
     }
-});
+}
 
-const userLogin = login(async (req, res) => {
+exports.login = async (req, res) => {
     try {
         const param = {
             username: req.body.username,
@@ -36,32 +39,31 @@ const userLogin = login(async (req, res) => {
     } catch (error) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
-});
+};
 
-const userLogout = logout(async (req, res) => {
-
-    const result = await authService.logout(/*Add param */);
-    return res.status(200).json({ data: result });
-});
+exports.logout = async (req, res) => {
+    try {
+        const result = await authService.logout(/*Add param */);
+        return res.status(200).json({ data: result });
+    } catch (error) {
+        return res.status(500);
+    }
+};
 
 /**
  * @description Change Password when user forgot password
  */
-const userForgotPassword = changePasswordPassive(async (req, res) => {
+exports.changePasswordPassive = async (req, res) => {
 
     const result = await authService.changePasswordPassive(/*Add param */);
     return res.status(200).json({ data: result });
-});
+};
 
 /**
  * @description Change Password when user using change password function
  */
-const userChangePassword = changePasswordActive(async (req, res) => {
+exports.changePasswordActive = async (req, res) => {
 
     const result = await authService.changePasswordActive(/*Add param */);
     return res.status(200).json({ data: result });
-});
-
-export const authController = {
-    create, userLogin, userLogout, userForgotPassword, userChangePassword,
-}
+};

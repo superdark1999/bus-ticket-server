@@ -1,8 +1,11 @@
-import { Router } from "express";
-import authRouter from "./auth.route";
+'use strict'
 
-const router = new Router();
+const express = require('express');
+const router = express.Router();
+const authRouter = require('../routes/auth.route');
 
 router.use("/auth", authRouter);
 
-export default router;
+module.exports = (app) => {
+    app.use('/login', authRouter);
+}

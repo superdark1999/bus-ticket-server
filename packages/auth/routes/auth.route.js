@@ -1,12 +1,13 @@
-import { Router } from "express";
-import { authController } from "../controllers/auth.controller";
+'use strict'
 
-const authRouter = new Router();
+const express = require('express');
+const router = express.Router();
+const authController = require('../controllers/auth.controller');
 
-authRouter.post("/register", authController.create);
-authRouter.post("/login", authController.userLogin);
-authRouter.post("/logout", authController.userLogout);
-authRouter.post("/forgot-password", authController.userForgotPassword);
-authRouter.post("/change-password", authController.userChangePassword);
+router.post("/register", authController.register);
+router.post("/login", authController.login);
+router.post("/logout", authController.logout);
+router.post("/forgot-password", authController.changePasswordPassive);
+router.post("/change-password", authController.changePasswordActive);
 
-export default authRouter;
+module.exports = router;
