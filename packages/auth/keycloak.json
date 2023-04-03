@@ -1,0 +1,12 @@
+{
+  "realm": "bus-ticket-auth-realm",
+  "auth-server-url": "http://localhost:8080/",
+  "ssl-required": "external",
+  "resource": "bus-ticket-server",
+  "verify-token-audience": false,
+  "credentials": {
+    "secret": "4UCFdrgGkqIS2mP3MevAFRLrs9j8jGOm"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

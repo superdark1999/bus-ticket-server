@@ -1,29 +1,32 @@
-import axios from "axios";
-import qs from "node:querystring";
-import jwt from "jsonwebtoken"
+'use strict'
 
-import session from "express-session"
-import keycloak from "keycloak-connect"
+const axios = require('axios');
+const qs = require('node:querystring');
+const jwt = require('jsonwebtoken');
+
+const session = require('express-session');
+const keycloak = require('keycloak-connect');
 
 const MEMORY_STORE = new session.MemoryStore();
 const KEY_CLOAK = new keycloak({ store: MEMORY_STORE });
 
-const register = async (param) => {
+exports.register = async (param) => {
     try {
-        const tokenResponse = await axios.post('http://localhost:8080/auth/realms/bus-ticket-auth-realm/protocol/openid-connect/token', qs.stringify({
+        const tokenResponse = await axios.post('http://localhost:8080/realms/master/protocol/openid-connect/token', qs.stringify({
             grant_type: 'password',
             username: 'admin',
             password: 'admin',
             client_id: 'bus-ticket-server',
-            client_secret: '4UCFdrgGkqIS2mP3MevAFRLrs9j8jGOm'
+            client_secret: '3h8hKtybTzEBtlEkBtcsMBJyDPZTLNWr'
         }), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
+
         const accessToken = tokenResponse.data.access_token;
 
-        const createUserResponse = await axios.post('http://localhost:8080/auth/admin/realms/bus-ticket-auth-realm/users', param, {
+        const createUserResponse = await axios.post('http://localhost:8080/admin/realms/bus-ticket-auth-realm/users', param, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
@@ -36,32 +39,31 @@ const register = async (param) => {
     }
 }
 
-const login = async (param) => {
-    const grant = await KEY_CLOAK.grantManager.obtainDirectly(param.username, param.password);
+exports.login = async (param) => {
+    const grant = await KEY_CLOAK.grantManager.obtainDirectly(param.username, param.password)
     if (null === grant) {
-        return null;
+        return;
     }
 
-    const userDecode = jwt.decode(grant.id_token);
     const result = {
-        grant: grant,
-        user: userDecode
+        access_token: grant.access_token.token,
+        refresh_token: grant.refresh_token.token,
+        id_token: grant.id_token.token,
+        token_type: grant.token_type,
+        expires_in: grant.expires_in,
     }
+
     return result;
 }
 
-const logout = async (req, res) => {
+exports.logout = async (req, res) => {
     return '';
 }
 
-const changePasswordPassive = async (req, res) => {
+exports.changePasswordPassive = async (req, res) => {
     return '';
 }
 
-const changePasswordActive = async (req, res) => {
+exports.changePasswordActive = async (req, res) => {
     return '';
-}
-
-export default {
-    register, login, logout, changePasswordActive, changePasswordPassive,
 }
