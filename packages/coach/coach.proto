@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package coach;
+
+service CoachService {
+  rpc CreateCoach (CoachData) returns (Coach) {}
+  rpc GetCoachList (CoachListRequest) returns (CoachList) {}
+  rpc GetCoach (CoachId) returns (Coach) {}
+  rpc UpdateCoach (CoachUpdate) returns (Coach) {}
+}
+
+message CoachData {
+  string id = 1;
+  string model = 2;
+  int32 capacity = 3;
+  string registrationNumber = 4;
+}
+
+message Coach {
+  string id = 1;
+  string model = 2;
+  int32 capacity = 3;
+  string registrationNumber = 4;
+  google.protobuf.Timestamp createdAt = 5;
+  google.protobuf.Timestamp updatedAt = 6;
+}
+
+message CoachId {
+  string id = 1;
+}
+
+message CoachUpdate {
+  string id = 1;
+  string model = 2;
+  int32 capacity = 3;
+  string registrationNumber = 4;
+}
+
+message CoachListRequest {
+  int32 page = 1;
+  int32 limit = 2;
+}
+
+message CoachList {
+  repeated Coach coaches = 1;
+  int32 page = 2;
+  int32 limit = 3;
+  int32 total = 4;
+  int32 totalPages = 5;
+}
