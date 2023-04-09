@@ -26,7 +26,7 @@ const bootstrap = () => {
     grpc.ServerCredentials.createInsecure(),
     () => {
       server.start();
-      console.log("Server running at http://localhost:50051");
+      console.log("Server running at grpc://localhost:50051");
     }
   );
 
