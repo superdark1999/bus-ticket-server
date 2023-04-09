@@ -24,8 +24,20 @@ export function getCoachList(call, callback) {
     limit,
   };
 
+  console.log(
+    "🚀 ~ file: coach.service.js:24 ~ getCoachList ~ options:",
+    Coach.paginate()
+  );
   Coach.paginate({}, options, (err, result) => {
+    console.log(
+      "🚀 ~ file: coach.service.js:32 ~ Coach.paginate ~ result:",
+      result
+    );
     if (err) {
+      console.log(
+        "🚀 ~ file: coach.service.js:29 ~ Coach.paginate ~ err:",
+        err
+      );
       callback(err, null);
       return;
     }

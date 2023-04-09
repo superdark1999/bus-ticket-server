@@ -19,6 +19,9 @@
     "grpc": "^1.24.11",
     "kafkajs": "^2.2.4",
     "mongoose": "^7.0.3",
+    "mongoose-paginate-v2": "^1.7.1",
+    "nodemon": "^2.0.22",
+    "protobufjs": "^7.2.3",
     "rxjs": "^7.8.0",
     "shared": "^0.1.0"
   },
