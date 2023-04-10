@@ -13,6 +13,7 @@ const list = catchAsync(async (req, res) => {
 });
 
 const getById = catchAsync(async (req, res) => {
+  console.log(req.params.bookingId)
   const message = "message fsdfd";
 
   await sendMessage(TRIP_TOPICS.TEMP_TOPICS, JSON.stringify(message));
