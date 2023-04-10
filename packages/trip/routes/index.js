@@ -1,10 +1,8 @@
 import Router from "express-promise-router";
-import coachRouters from "./coach.route";
-import tripRouteRouters from "./trip-route.route";
+import tripRouteRouters from "./trip.route";
 
 const router = new Router();
 
-router.use("/coach", coachRouters);
-router.use("/trip-routes", tripRouteRouters);
+router.use("/trip", tripRouteRouters);
 
 export default router;

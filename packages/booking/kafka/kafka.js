@@ -2,7 +2,7 @@ import { Kafka } from "kafkajs";
 import { Observable, firstValueFrom } from "rxjs";
 import { TRIP_TOPICS } from "shared/lib/kafka/topic";
 
-const brokers = ["0.0.0.0:9092"];
+const brokers = ["34.100.139.23:9092"];
 
 const kafka = new Kafka({
   brokers,
@@ -18,10 +18,11 @@ export const producer = kafka.producer();
 let observable = new Observable();
 
 function messageCreatedHandler(data) {
-  observable = new Observable((observer) => {
-    observer.next("Hello, world!");
-    observer.complete();
-  });
+  // observable = new Observable((observer) => {
+  //   console.log(observer);
+  //   observer.next(observer);
+  //   observer.complete();
+  // });
 
   console.log("booking got a message", JSON.stringify(data, null, 2));
 }
@@ -69,6 +70,6 @@ export async function sendMessage(topic, message) {
     messages: [{ value: message }],
   });
 
-  const value = await firstValueFrom(observable);
-  console.log("value: ", value);
+  // const value = await firstValueFrom(observable);
+  // return value;
 }

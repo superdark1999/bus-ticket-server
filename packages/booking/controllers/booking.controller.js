@@ -17,7 +17,7 @@ const getById = catchAsync(async (req, res) => {
 
   await sendMessage(TRIP_TOPICS.TEMP_TOPICS, JSON.stringify(message));
 
-  return res.status(200).json({ name: "jsdkfdsl" });
+  return res.status(200).json({ data: "sdfd" });
 });
 
 export const bookingController = {

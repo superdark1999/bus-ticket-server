@@ -3,7 +3,7 @@ import paginate from "shared/lib/plugins/paginate.plugin";
 import toJSON from "shared/lib/plugins/toJSON.plugin";
 const { Schema } = mongoose;
 
-const tripRoutesSchema = new Schema(
+const tripSchema = new Schema(
   {
     origin: String,
     destination: String,
@@ -13,7 +13,7 @@ const tripRoutesSchema = new Schema(
   { timestamps: true }
 );
 
-tripRoutesSchema.plugin(toJSON);
-tripRoutesSchema.plugin(paginate);
+tripSchema.plugin(toJSON);
+tripSchema.plugin(paginate);
 
-export const TripRoutes = mongoose.model("tripRoutes", tripRoutesSchema);
+export const Trip = mongoose.model("trips", tripSchema);
