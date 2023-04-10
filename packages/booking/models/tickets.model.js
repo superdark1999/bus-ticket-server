@@ -5,7 +5,11 @@ const { Schema } = mongoose;
 
 const ticketsSchema = new Schema(
   {
-    licensePlates: String,
+    seatNumber: Number,
+    bookingDate: Date,
+    status: String,
+    tripRoute_id: String,
+    user_id: String
   },
   { timestamps: true }
 );
@@ -13,4 +17,4 @@ const ticketsSchema = new Schema(
 ticketsSchema.plugin(toJSON);
 ticketsSchema.plugin(paginate);
 
-export const Coach = mongoose.model("coaches", ticketsSchema);
+export const tickets = mongoose.model("tickets", ticketsSchema);
