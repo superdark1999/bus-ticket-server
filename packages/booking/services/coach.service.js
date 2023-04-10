@@ -1,7 +1,7 @@
-import models from '../models';
+import { tickets } from "../models";
 
 const getCoaches = async (filter, options) => {
-  const { results, ...others } = await models.ticket.paginate(filter, options);
+  const { results, ...others } = await tickets.paginate(filter, options);
 
   return {
     results,
