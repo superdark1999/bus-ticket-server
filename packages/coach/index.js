@@ -5,7 +5,7 @@ import {
   getCoach,
   getCoachList,
   updateCoach,
-} from "./services/coach.service";
+} from "./services/coach.service.js";
 const packageDefinition = protoLoader.loadSync("./coach.proto");
 const coachProto = grpc.loadPackageDefinition(packageDefinition);
 import connectMongoDB from "shared/lib/db/mongodb";
@@ -14,7 +14,7 @@ const server = new grpc.Server();
 const bootstrap = () => {
   connectMongoDB();
 
-  server.addService(coachProto.CoachService.service, {
+  server.addService(coachProto.coach.CoachService.service, {
     createCoach,
     getCoachList,
     getCoach,
@@ -26,7 +26,7 @@ const bootstrap = () => {
     grpc.ServerCredentials.createInsecure(),
     () => {
       server.start();
-      console.log("Server running at http://localhost:50051");
+      console.log("Server running at grpc://localhost:50051");
     }
   );
 
