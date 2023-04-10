@@ -1,2 +1,1 @@
-export * from "./coach.controller";
-export * from "./trip-route.controller";
+export * from "./trip.controller";

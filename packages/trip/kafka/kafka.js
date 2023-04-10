@@ -1,15 +1,16 @@
 import { Kafka } from "kafkajs";
+// import
 import { TRIP_TOPICS } from "shared/lib/kafka/topic";
 
-const brokers = ["0.0.0.0:9092"];
+const brokers = ["34.100.139.23:9092"];
 
 const kafka = new Kafka({
   brokers,
-  clientId: "admin-service",
+  clientId: "trip-service",
 });
 
 export const consumer = kafka.consumer({
-  groupId: "admin-service",
+  groupId: "trip-service",
 });
 
 const producer = kafka.producer();
@@ -18,6 +19,7 @@ function messageCreatedHandler(data) {
   console.log("trip got a new message", JSON.stringify(data, null, 2));
 
   const message = "data send back";
+
   sendMessage(TRIP_TOPICS.TEMP_BACK_TOPICS, JSON.stringify(message));
 }
 
