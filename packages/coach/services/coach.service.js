@@ -2,17 +2,20 @@ import { Coach } from "../models";
 
 export function createCoach(call, callback) {
   const coachData = call.request;
-
   const coach = new Coach(coachData);
 
-  coach.save((err, doc) => {
-    if (err) {
+  coach
+    .save()
+    .then((doc) => {
+      const newCoach = { ...doc.toObject() };
+      newCoach.id = newCoach?._id?.toString();
+      delete newCoach._id;
+      delete newCoach.__v;
+      callback(null, newCoach);
+    })
+    .catch((err) => {
       callback(err, null);
-      return;
-    }
-
-    callback(null, doc.toObject());
-  });
+    });
 }
 
 export function getCoachList(call, callback) {
@@ -29,9 +32,14 @@ export function getCoachList(call, callback) {
       callback(err, null);
       return;
     }
-
     const response = {
-      coaches: result.docs.map((doc) => doc.toObject()),
+      coaches: result.docs.map((doc) => {
+        const newCoach = { ...doc.toObject() };
+        newCoach.id = newCoach?._id?.toString();
+        delete newCoach._id;
+        delete newCoach.__v;
+        return newCoach;
+      }),
       page: result.page,
       limit: result.limit,
       total: result.totalDocs,
@@ -45,41 +53,52 @@ export function getCoachList(call, callback) {
 export function getCoach(call, callback) {
   const { id } = call.request;
 
-  Coach.findById(id, (err, doc) => {
-    if (err) {
+  Coach.findById(id)
+    .then((doc) => {
+      if (!doc) {
+        throw { code: grpc.status.NOT_FOUND, message: "Coach not found" };
+      }
+      const newCoach = { ...doc.toObject() };
+      newCoach.id = newCoach?._id?.toString();
+      delete newCoach._id;
+      delete newCoach.__v;
+      callback(null, newCoach);
+    })
+    .catch((err) => {
       callback(err, null);
-      return;
-    }
-
-    if (!doc) {
-      callback(
-        { code: grpc.status.NOT_FOUND, message: "Coach not found" },
-        null
-      );
-      return;
-    }
-
-    callback(null, doc.toObject());
-  });
+    });
 }
 
 export function updateCoach(call, callback) {
   const { id, ...updateData } = call.request;
 
-  Coach.findByIdAndUpdate(id, updateData, { new: true }, (err, doc) => {
-    if (err) {
+  Coach.findByIdAndUpdate(id, updateData, { new: true })
+    .then((doc) => {
+      if (!doc) {
+        throw { code: grpc.status.NOT_FOUND, message: "Coach not found" };
+      }
+      const newCoach = { ...doc.toObject() };
+      newCoach.id = newCoach?._id?.toString();
+      delete newCoach._id;
+      delete newCoach.__v;
+      callback(null, newCoach);
+    })
+    .catch((err) => {
       callback(err, null);
-      return;
-    }
+    });
+}
+export function deleteCoach(call, callback) {
+  const { id } = call.request;
 
-    if (!doc) {
-      callback(
-        { code: grpc.status.NOT_FOUND, message: "Coach not found" },
-        null
-      );
-      return;
-    }
+  Coach.findByIdAndDelete(id)
+    .then((doc) => {
+      if (!doc) {
+        throw { code: grpc.status.NOT_FOUND, message: "Coach not found" };
+      }
 
-    callback(null, doc.toObject());
-  });
+      callback(null, { message: "Coach deleted successfully" });
+    })
+    .catch((err) => {
+      callback(err, null);
+    });
 }
