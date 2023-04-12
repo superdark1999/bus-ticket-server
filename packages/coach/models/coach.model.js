@@ -5,7 +5,6 @@ const { Schema } = mongoose;
 
 const coachSchema = new Schema(
   {
-    id: String,
     model: String,
     capacity: Number,
     registrationNumber: String,
