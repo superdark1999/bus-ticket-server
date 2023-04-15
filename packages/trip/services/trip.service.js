@@ -9,6 +9,10 @@ const getTrip = async (filter, options) => {
   };
 };
 
+const getTripById = async (tripId) => {
+  return await Trip.findById(tripId);
+};
+
 const createTrip = async (data) => {
   const newTrip = await Trip.create(data);
   return newTrip;
@@ -30,6 +34,7 @@ const deleteTrip = async (tripId) => {
 
 export default {
   getTrip,
+  getTripById,
   createTrip,
   updateTrip,
   deleteTrip,
