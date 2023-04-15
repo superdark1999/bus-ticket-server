@@ -5,6 +5,7 @@ import {
   getCoach,
   getCoachList,
   updateCoach,
+  deleteCoach,
 } from "./services/coach.service.js";
 const packageDefinition = protoLoader.loadSync("./coach.proto");
 const coachProto = grpc.loadPackageDefinition(packageDefinition);
@@ -19,6 +20,7 @@ const bootstrap = () => {
     getCoachList,
     getCoach,
     updateCoach,
+    deleteCoach,
   });
 
   server.bindAsync(
