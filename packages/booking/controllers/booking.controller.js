@@ -1,6 +1,7 @@
 import pick from "shared/lib/utils/pick";
 import catchAsync from "shared/lib/utils/catchAsync";
-import { sendMessage } from "../kafka/kafka";
+import { firstValueFrom } from "rxjs";
+import { kafkaClient } from "../index";
 import coachService from "../services/coach.service";
 import { TRIP_TOPICS } from "shared/lib/kafka/topic";
 
@@ -13,12 +14,13 @@ const list = catchAsync(async (req, res) => {
 });
 
 const getById = catchAsync(async (req, res) => {
-  console.log(req.params.bookingId)
-  const message = "message fsdfd";
+  const message = req.params.bookingId;
 
-  await sendMessage(TRIP_TOPICS.TEMP_TOPICS, JSON.stringify(message));
+  const value = await firstValueFrom(
+    kafkaClient.sendMessage(TRIP_TOPICS.MESSAGE_TOPICS, JSON.stringify(message))
+  );
 
-  return res.status(200).json({ data: "sdfd" });
+  return res.status(200).json({ data: value });
 });
 
 export const bookingController = {
