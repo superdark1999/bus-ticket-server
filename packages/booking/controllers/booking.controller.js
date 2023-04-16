@@ -17,7 +17,7 @@ const getById = catchAsync(async (req, res) => {
   const message = req.params.bookingId;
 
   const value = await firstValueFrom(
-    kafkaClient.sendMessage(TRIP_TOPICS.MESSAGE_TOPICS, JSON.stringify(message))
+    kafkaClient.sendMessage(TRIP_TOPICS.GET_TRIP, JSON.stringify(message))
   );
 
   return res.status(200).json({ data: value });
