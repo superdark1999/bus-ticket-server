@@ -17,8 +17,7 @@ export const kafkaClient = new KafkaClient(
   "booking-service"
 );
 
-kafkaClient.subscribeOfMessage(TRIP_TOPICS.TEMP_TOPICS);
-kafkaClient.subscribeOfMessage(TRIP_TOPICS.MESSAGE_TOPICS);
+kafkaClient.subscribeOfMessage(TRIP_TOPICS.GET_TRIP);
 
 // server apollo
 const server = new ApolloServer({

@@ -13,8 +13,8 @@ kafkaServer.addHandler(TRIP_TOPICS.TEMP_TOPICS, true, (data) => {
   console.log("Get message with temp TEMP_TOPICS: ", data);
 });
 
-kafkaServer.addHandler(TRIP_TOPICS.MESSAGE_TOPICS, false, async (data) => {
-  console.log("Get message with temp MESSAGE_TOPICS: ", data);
+kafkaServer.addHandler(TRIP_TOPICS.GET_TRIP, false, async (data) => {
+  console.log("Get message with temp GET_TRIP: ", data);
 
   const tripId = "6434150c132d883920ba9910";
   const trip = await tripService.getTripById(tripId);
