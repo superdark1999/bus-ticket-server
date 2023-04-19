@@ -24,7 +24,7 @@ const bootstrap = () => {
     deleteCoach,
   });
 
-  server.bind(
+  server.bindAsync(
     "localhost:50051",
     grpc.ServerCredentials.createInsecure(),
     () => {
