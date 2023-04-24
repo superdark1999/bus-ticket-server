@@ -10,7 +10,7 @@ exports.register = async (req, res) => {
                 {
                     type: 'password',
                     value: req.body.password,
-                    temporary: false
+                    temporary: false,
                 }
             ],
             username: req.body.username,
@@ -88,13 +88,11 @@ exports.changePasswordActive = async (req, res) => {
         }
 
         const result = await authService.changePasswordActive(param);
-
-        return res.status(result.status).json({
+        return res.status(200).json({
             status: result.status,
             statusText: result.statusText,
             data: result.data,
-        })
-
+        });
     } catch (error) {
         console.log(error);
         if (error.response.status == 401) {
