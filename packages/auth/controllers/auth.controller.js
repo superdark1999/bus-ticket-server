@@ -4,6 +4,8 @@ const authService = require('../services/auth.service')
 
 exports.register = async (req, res) => {
     try {
+        const isAdmin = req.body.isAdmin;
+
         const param = {
             enabled: true,
             credentials: [
@@ -18,6 +20,12 @@ exports.register = async (req, res) => {
             emailVerified: true,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
+        }
+
+        if (isAdmin) {
+            param.groups = ["group-admin"];
+        } else {
+            param.groups = ["group-end_user"];
         }
 
 
