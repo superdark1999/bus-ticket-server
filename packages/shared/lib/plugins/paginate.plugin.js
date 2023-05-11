@@ -29,7 +29,20 @@ const paginate = (schema) => {
         ? parseInt(options.page, 10)
         : 1;
     const skip = (page - 1) * limit;
-    let { unixTimestamp, ...updatedFilter } = filter;
+    let { unixTimestamp, duration, ...updatedFilter } = filter;
+    if (duration) {
+      const durationArray = duration.split(",");
+
+      const durationFilter = {
+        $gte: durationArray[0],
+        $lte: durationArray[1],
+      };
+
+      updatedFilter = {
+        ...updatedFilter,
+        duration: durationFilter,
+      };
+    } 
 
     const countPromise = this.countDocuments(updatedFilter).exec();
     let docsPromise = this.find(updatedFilter)

@@ -3,7 +3,7 @@ import catchAsync from "shared/lib/utils/catchAsync";
 import tripService from "../services/trip.service";
 
 const list = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ["startDate"]);
+  const filter = pick(req.query, ["duration", "price", "origin"]);
   const options = pick(req.query, ["sortBy", "limit", "page"]);
 
   const result = await tripService.getTrip(filter, options);
