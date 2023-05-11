@@ -6,7 +6,7 @@ import { kafkaClient } from "../index";
 import coachService from "../services/coach.service";
 
 const list = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ["startDate"]);
+  const filter = pick(req.query, ["duration"]);
   const options = pick(req.query, ["sortBy", "limit", "page"]);
 
   const result = await coachService.getCoaches(filter, options);
