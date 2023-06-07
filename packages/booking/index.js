@@ -1,8 +1,8 @@
 import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { KafkaClient } from "shared/lib/kafka/kafkaClient";
-import { TRIP_TOPICS } from "shared/lib/kafka/topic";
+//import { KafkaClient } from "shared/lib/kafka/kafkaClient";
+//import { TRIP_TOPICS } from "shared/lib/kafka/topic";
 import setup from "shared/lib/setup";
 import connectMongoDB from "shared/lib/db/mongodb";
 
@@ -12,12 +12,12 @@ import typeDefs from "./graphql/typeDefs";
 
 const app = express();
 
-export const kafkaClient = new KafkaClient(
-  "booking-service",
-  "booking-service"
-);
+// export const kafkaClient = new KafkaClient(
+//   "booking-service",
+//   "booking-service"
+// );
 
-kafkaClient.subscribeOfMessage(TRIP_TOPICS.GET_TRIP);
+// kafkaClient.subscribeOfMessage(TRIP_TOPICS.GET_TRIP);
 
 // server apollo
 const server = new ApolloServer({
@@ -31,7 +31,7 @@ const bootstrap = async () => {
 
   connectMongoDB();
 
-  await kafkaClient.connect();
+  //await kafkaClient.connect();
 
   // use graphql with apollo server
   app.use("/graphql", expressMiddleware(server));
