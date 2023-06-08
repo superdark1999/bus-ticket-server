@@ -6,6 +6,7 @@ import setup from "shared/lib/setup";
 import { KafkaServer } from "shared/lib/kafka/kafkaServer";
 import routes from "./routes";
 import tripService from "./services/trip.service";
+import tripSeed from "./utils/tripSeed";
 
 //export const kafkaServer = new KafkaServer("trip-service", "trip-service");
 
@@ -26,7 +27,9 @@ const app = express();
 const bootstrap = async () => {
   const { PORT } = setup(app, routes);
 
+  // connect db and seed data
   connectMongoDB();
+  tripSeed();
 
   //await kafkaServer.connect();
 
