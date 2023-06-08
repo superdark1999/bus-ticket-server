@@ -26,7 +26,35 @@ const getCoachList = async (req, res) => {
   }
 }
 
+const deleteCoach = async (req, res) => {
+  try{
+    const id = req.params.id;
+    await coachService.deleteCoach(id);
+
+    res.status(200).json({message: "success"});
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({message: "server error"});
+  }
+}
+
+const updateCoach = async (req, res) => {
+  try{
+    const {id, model, capacity, registrationNumber} = req.body;
+    const newCoach = await coachService.updateCoach(id, model, capacity, registrationNumber);
+
+    res.status(200).json({newCoach});
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({message: "server error"});
+  }
+}
+
 export const coachController = {
   createNewCoach,
   getCoachList,
+  deleteCoach,
+  updateCoach,
 };

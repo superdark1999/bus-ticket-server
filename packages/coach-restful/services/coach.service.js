@@ -27,7 +27,31 @@ const getCoachList = async () => {
   }
 }
 
+const deleteCoach = async (id) => {
+  try{
+    const result = await Coach.findByIdAndRemove(id);
+    return result;
+  }
+  catch(error){
+    throw(error);
+  }
+}
+
+const updateCoach = async (id, model, capacity, registrationNumber) => {
+  try{
+    const coach = {model, capacity, registrationNumber};
+    const newCoach = await Coach.findByIdAndUpdate(id, coach, {new: true});
+
+    return newCoach;
+  }
+  catch(error){
+    throw(error);
+  }
+}
+
 export default {
   createNewCoach,
-  getCoachList
+  getCoachList,
+  deleteCoach,
+  updateCoach
 };
