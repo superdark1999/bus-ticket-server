@@ -1,0 +1,1 @@
+export * from "./tripRoutes.model";
