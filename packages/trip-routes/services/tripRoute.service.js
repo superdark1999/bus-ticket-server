@@ -3,12 +3,16 @@ import { tripRoutes } from "../models";
 // import axios from 'axios';
 
 const createNewTripRoute = async (departureTime, arrivalTime, trip_id, coach_id, capacity) => {
-  const seats = new Array(capacity).fill(false);
+  const seats = new Array(capacity);
+  for (let i = 0; i < capacity; i++) {
+    seats[i] = false;
+  }
+  console.log("seats", seats);
   try{
     const tripRoute = new tripRoutes({
       departureTime,
       arrivalTime,
-      seats,
+      bookedSeat: seats,
       trip_id,
       coach_id,
     });

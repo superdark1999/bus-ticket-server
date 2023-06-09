@@ -4,7 +4,6 @@ const createNewTripRoute = async (req, res) => {
   try{
     const {departureTime, arrivalTime, trip_id, coach_id, capacity} = req.body;
     const newTripRoute = await tripRouteService.createNewTripRoute(departureTime, arrivalTime, trip_id, coach_id, capacity);
-
     res.status(200).json({newCoach: newTripRoute});
   }
   catch(error){
