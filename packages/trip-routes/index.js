@@ -30,7 +30,9 @@ const bootstrap = async () => {
 
   // connect and seed sample data
   connectMongoDB();
-  tripRoutesSeed();
+
+  // use when you want to seed data, dont remove
+  //tripRoutesSeed();
 
   //await kafkaServer.connect();
 

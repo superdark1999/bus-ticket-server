@@ -49,9 +49,20 @@ const updateCoach = async (id, model, capacity, registrationNumber) => {
   }
 }
 
+const getCoachById = async (coachId) => {
+  try{
+    const coach = await Coach.findById(coachId);
+    return coach;
+  }
+  catch(error){
+    throw(error);
+  }
+}
+
 export default {
   createNewCoach,
   getCoachList,
   deleteCoach,
-  updateCoach
+  updateCoach,
+  getCoachById
 };
