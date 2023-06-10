@@ -24,7 +24,7 @@ const createNewTripRoute = async (departureTime, arrivalTime, trip_id, coach_id,
 const getTripRoutes = async () => {
   try{
     const tripRouteList =  await tripRoutes.find();
-    const tripList = await axios.get('http://localhost:8081/trip');
+    const tripList = await axios.get('http://localhost:8081/trip/?1000');
     const coachList = await axios.get('http://localhost:8083/coach/list')
 
     const linkedTrips = tripRouteList.reduce((acc, item) => {
