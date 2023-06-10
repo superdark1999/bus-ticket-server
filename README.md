@@ -10,11 +10,12 @@
 - yarn
 
 ### Run services/packages, please run all of them(3)
-+ Note: The project has 3 three packages that representations for 3 services:
++ Note: The project has 4 three packages that representations for 4 services:
   - trip: run on localhost:8081
   - booking: run on localhost:8082
-  - coach-restful(please ignore coach package if you see and concern): run on localhost:8081
-+ Run them:
+  - coach-restful(please ignore coach package if you see and concern): run on localhost:8083
+  - trip-routes: run on localhost:8085
++ Run them(please run follow sequence to having good sample data):
   - trip: 
     * > cd packages/trip
     * > yarn start
@@ -23,6 +24,9 @@
     * > yarn start
   - coach-restful: 
     * > cd packages/coach-restful
+    * > yarn start
+  - trip-routes: 
+    * > cd packages/trip-routes
     * > yarn start
 
 + Bonus: In each env file of each packages, you can replace each connection string to each your db(each db completely separate).
