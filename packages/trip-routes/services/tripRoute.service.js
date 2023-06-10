@@ -1,18 +1,13 @@
 /* eslint-disable no-useless-catch */
 import { tripRoutes } from "../models";
-// import axios from 'axios';
+import axios from 'axios';
 
-const createNewTripRoute = async (departureTime, arrivalTime, trip_id, coach_id, capacity) => {
-  const seats = new Array(capacity);
-  for (let i = 0; i < capacity; i++) {
-    seats[i] = false;
-  }
-  console.log("seats", seats);
+const createNewTripRoute = async (departureTime, arrivalTime, trip_id, coach_id, bookedSeat) => {
   try{
     const tripRoute = new tripRoutes({
       departureTime,
       arrivalTime,
-      bookedSeat: seats,
+      bookedSeat,
       trip_id,
       coach_id,
     });
@@ -29,7 +24,26 @@ const createNewTripRoute = async (departureTime, arrivalTime, trip_id, coach_id,
 const getTripRoutes = async () => {
   try{
     const tripRouteList =  await tripRoutes.find();
-    return tripRouteList;
+    const tripList = await axios.get('http://localhost:8081/trip/?1000');
+    const coachList = await axios.get('http://localhost:8083/coach/list')
+
+    const linkedTrips = tripRouteList.reduce((acc, item) => {
+      const trip = tripList.data.results.find(t => t.id === item.trip_id);
+      const coach = coachList.data.coachList.find(c => c.id === item.coach_id);
+      if (trip && coach) {
+        acc.push({...item,
+          origin: trip.origin,
+          destination: trip.destination,
+          duration: trip.duration,
+          price: trip.price,
+          model: coach.model,
+          capacity: coach.capacity,
+          registrationNumber: coach.registrationNumber});
+      }
+      return acc;
+    }, []);
+
+    return linkedTrips;
   }
   catch(error){
     throw(error);
