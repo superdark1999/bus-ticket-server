@@ -3,11 +3,13 @@ import { tripRoutesController } from "../controllers";
 
 const router = new Router();
 
-// create new coach
 router.post("/new-tripRoute", tripRoutesController.createNewTripRoute);
 
-
-// get coach list
 router.get("/list-tripRoute", tripRoutesController.getTripRouteList);
+
+router.put("/:id", tripRoutesController.updateTripRoute);
+
+router.delete("/:id", tripRoutesController.deleteTripRoute);
+
 
 export default router;
