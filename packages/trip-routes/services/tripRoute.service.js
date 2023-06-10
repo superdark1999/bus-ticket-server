@@ -70,10 +70,48 @@ const deleteTripRoute = async (tripRouteId) => {
   return deletedTripRoute;
 };
 
+const searchTripRoute = async (origin, destination, departureDate) => {
+  try{
+    const tripRouteList = await tripRoutes.find({departureTime: {$regex: departureDate, $options: 'i'}});
+    const result = [];
+    for(const tripRoute of tripRouteList){
+      const trip = (await axios.get(`${process.env.TRIP_SERVICE_URL}/trip/${tripRoute.trip_id}`)).data.trip;
+      if(trip.origin.includes(origin) && trip.destination.includes(destination)){
+        const coach = ((await axios.get(`${process.env.COACH_SERVICE_URL}/coach/id/${tripRoute.coach_id}`))).data.coach;
+        
+        const newResult = {
+          id: tripRoute.id,
+          departureTime: tripRoute.departureTime,
+          arrivalTime: tripRoute.arrivalTime,
+          bookedSeat: tripRoute.bookedSeat,
+          trip_id: tripRoute.trip_id,
+          origin: trip.origin,
+          destination: trip.destination,
+          duration: trip.duration,
+          price: trip.price,
+          coach_id: tripRoute.coach_id,
+          model: coach.model,
+          capacity: coach.capacity,
+          registrationNumber: coach.registrationNumber
+        }
+
+        result.push(newResult);
+      }
+    }
+
+    console.log(tripRouteList);
+    return result;
+  }
+  catch(error){
+    throw(error);
+  }
+}
+
 
 export default {
   createNewTripRoute,
   getTripRoutes,
   updateTripRoute,
   deleteTripRoute,
+  searchTripRoute
 };

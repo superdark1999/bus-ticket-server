@@ -15,4 +15,7 @@ router.patch("/update", coachController.updateCoach);
 // delete coach
 router.delete("/delete/:id", coachController.deleteCoach)
 
+// get coach by id
+router.get("/id/:coachId", coachController.getCoachById);
+
 export default router;

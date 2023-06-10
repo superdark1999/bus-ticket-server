@@ -52,9 +52,23 @@ const updateCoach = async (req, res) => {
   }
 }
 
+const getCoachById = async (req, res) => {
+  try{
+    const coachId = req.params.coachId;
+    const coach = await coachService.getCoachById(coachId);
+
+    res.status(200).json({coach});
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({message: "server error"});
+  }
+}
+
 export const coachController = {
   createNewCoach,
   getCoachList,
   deleteCoach,
   updateCoach,
+  getCoachById
 };

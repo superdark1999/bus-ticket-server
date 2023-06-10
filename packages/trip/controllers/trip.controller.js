@@ -10,7 +10,16 @@ const list = catchAsync(async (req, res) => {
   return res.status(200).json(result);
 });
 
-const getById = catchAsync(() => {});
+const getById = async (req, res) => {
+  try{
+    const trip = await tripService.getTripById(req.params.id);
+    res.status(200).json({trip});
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({error: "server error"});
+  }
+};
 
 const createTrip = catchAsync(async (req, res) => {
   const trip = await tripService.createTrip(req.body);

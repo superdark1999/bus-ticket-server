@@ -10,7 +10,8 @@ const getTrip = async (filter, options) => {
 };
 
 const getTripById = async (tripId) => {
-  return await Trip.findById(tripId);
+  const trip = await Trip.findById(tripId);
+  return trip;
 };
 
 const createTrip = async (data) => {

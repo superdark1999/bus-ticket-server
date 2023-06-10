@@ -29,7 +29,9 @@ const bootstrap = async () => {
 
   // connect and seed sample data
   connectMongoDB();
-  coachSeed();
+
+  // use when you want to seed data, dont remove
+  //coachSeed();
 
   //await kafkaServer.connect();
 

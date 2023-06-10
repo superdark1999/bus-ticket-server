@@ -33,9 +33,24 @@ const deleteTripRoute = async (req, res) => {
   res.status(200).json(trip);
 };
 
+const searchTripRoute = async (req, res) => {
+  try{
+    const {origin, destination, departureDate} = req.query;
+
+    const tripRouteList = await tripRouteService.searchTripRoute(origin, destination, departureDate);
+
+    res.status(200).json({tripRouteList: tripRouteList})
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({message: "server error"});
+  }
+}
+
 export const tripRoutesController = {
   createNewTripRoute: createNewTripRoute,
   getTripRouteList: getTripRouteList,
   updateTripRoute: updateTripRoute,
-  deleteTripRoute: deleteTripRoute
+  deleteTripRoute: deleteTripRoute,
+  searchTripRoute,
 };
