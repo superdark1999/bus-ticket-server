@@ -23,7 +23,19 @@ const getTripRouteList = async (req, res) => {
   }
 }
 
+const updateTripRoute = async (req, res) => {
+  const trip = await tripRouteService.updateTripRoute(req.params.id, req.body);
+  res.status(200).json(trip);
+};
+
+const deleteTripRoute = async (req, res) => {
+  const trip = await tripRouteService.deleteTripRoute(req.params.id);
+  res.status(200).json(trip);
+};
+
 export const tripRoutesController = {
   createNewTripRoute: createNewTripRoute,
   getTripRouteList: getTripRouteList,
+  updateTripRoute: updateTripRoute,
+  deleteTripRoute: deleteTripRoute
 };
