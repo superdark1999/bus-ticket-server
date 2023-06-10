@@ -5,6 +5,7 @@ import setup from "shared/lib/setup";
 
 //import { KafkaServer } from "shared/lib/kafka/kafkaServer";
 import routes from "./routes";
+import tripRoutesSeed from "./utils/tripRouteSeed";
 // import coachSeed from "./utils/coachSeed";
 //import tripService from "./services/trip.service";
 
@@ -29,7 +30,7 @@ const bootstrap = async () => {
 
   // connect and seed sample data
   connectMongoDB();
-  // coachSeed();
+  tripRoutesSeed();
 
   //await kafkaServer.connect();
 

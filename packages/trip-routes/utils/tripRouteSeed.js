@@ -1,98 +1,45 @@
 import { tripRoutes } from "../models";
+import axios from 'axios';
 
-export default async function coachSeed() {
-  // ####### seed data for coaches ######
+
+export default async function tripRoutesSeed() {
+  // ####### seed data for trip routes ######
   // delete old collection in database
   const drop = await tripRoutes.collection.drop();
   if (drop) {
-    console.log("old coaches collection was deleted");
+    console.log("old trip routes collection was deleted");
   } else {
-    console.log("error drop old coaches collection");
+    console.log("error drop old trip route collections");
     return;
   }
 
   // seed data for coach
-  const coachesData = [
-    {
-      model: "Giường nằm",
-      capacity: 24,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Ghế ngồi",
-      capacity: 40,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Phòng nằm",
-      capacity: 16,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Giường nằm",
-      capacity: 24,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Ghế ngồi",
-      capacity: 40,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Phòng nằm",
-      capacity: 16,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },{
-      model: "Giường nằm",
-      capacity: 24,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Ghế ngồi",
-      capacity: 40,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Phòng nằm",
-      capacity: 16,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },{
-      model: "Giường nằm",
-      capacity: 24,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Ghế ngồi",
-      capacity: 40,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Phòng nằm",
-      capacity: 16,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },{
-      model: "Giường nằm",
-      capacity: 24,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Ghế ngồi",
-      capacity: 40,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-    {
-      model: "Phòng nằm",
-      capacity: 16,
-      registrationNumber: `74F1-${Math.round(Math.random()*100000)}`
-    },
-  ];
+  const tripList = (await axios.get("http://localhost:8081/trip/?1000")).data.results;
+  const coachList = (await axios.get("http://localhost:8083/coach/list")).data.coachList;
+  const tripRoutesData = [];
 
-  try{
-    await tripRoutes.insertMany(coachesData);
-    console.log("coach collections was inserted");
+  for (let i = 0; i < 15; i++) {
+    const pickTrip = tripList[Math.floor(Math.random() * tripList.length)];
+    const pickCoach = coachList[Math.floor(Math.random() * coachList.length)];
+    const departureTime = Math.floor(Math.random() * 24);
+    const arrivalTime = departureTime + pickTrip.duration / 60;
+
+    const newTripRoute = {
+      departureTime: `${departureTime}:00 ${new Date().toLocaleDateString("en-GB")}`,
+      arrivalTime: `${arrivalTime}:00 ${new Date().toLocaleDateString("en-GB")}`,
+      trip_id: pickTrip.id,
+      coach_id: pickCoach.id,
+      bookedSeat: new Array(pickCoach.capacity).fill(false)
+    };
+
+    tripRoutesData.push(newTripRoute);
   }
-  catch(error){
-    console.log("error when seed data for coach collections");
+
+  try {
+    await tripRoutes.insertMany(tripRoutesData);
+    console.log("trip route collections was inserted");
+  } catch (error) {
+    console.log("error when seed data for trip route collections");
     console.error(error);
   }
 }
