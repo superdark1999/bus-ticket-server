@@ -47,10 +47,30 @@ const searchTripRoute = async (req, res) => {
   }
 }
 
+const getTripRouteById = async (req, res) => {
+  try{
+    const tripRoute = await tripRouteService.getTripRouteById(req.params.id);
+
+    if(!tripRoute){
+      res.status(400).json({message: "Not found trip route by that id"});
+      return;
+    }
+
+    res.status(200).json({tripRoute})
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({message: "server error"});
+  }
+}
+
+
+
 export const tripRoutesController = {
   createNewTripRoute: createNewTripRoute,
   getTripRouteList: getTripRouteList,
   updateTripRoute: updateTripRoute,
   deleteTripRoute: deleteTripRoute,
   searchTripRoute,
+  getTripRouteById
 };

@@ -6,10 +6,12 @@ const { Schema } = mongoose;
 const ticketsSchema = new Schema(
   {
     seatNumber: Number,
+    tripRoute_id: String,
     bookingDate: Date,
     status: String,
-    tripRoute_id: String,
-    user_id: String
+    customerName: String,
+    customerPhone: String,
+    customerEmail: String,
   },
   { timestamps: true }
 );

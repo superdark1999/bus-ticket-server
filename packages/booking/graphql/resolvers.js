@@ -16,7 +16,7 @@ const resolvers = {
     Query: {
         hellos: () => hellos,
         tickets: async (parent, args, contextValue, info) => {
-            return await ticketService.getTicketList(args.tripRoute_id, args.user_id);
+            return await ticketService.getTicketList(args.tripRoute_id);
         }, 
         ticket: async (parent, args, contextValue, info)  => {
             return await ticketService.getTicketById(args._id);
@@ -24,7 +24,7 @@ const resolvers = {
     },
     Mutation: {
         addTicket: async (parent, args, contextValue, info) => {
-            return await ticketService.addTicket(args.seatNumber, args.tripRoute_id, args.user_id);
+            return await ticketService.addTicket(args.seatNumber, args.tripRoute_id, args.customerName, args.customerPhone, args.customerEmail);
         },
         updateTicketStatus: async (parent, args, contextValue, info) => {
             return await ticketService.updateTicketStatus(args._id, args.status);
