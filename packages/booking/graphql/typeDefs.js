@@ -14,18 +14,20 @@ const typeDefs = gql`
     bookingDate: String
     status: String
     tripRoute_id: String
-    user_id: String
+    customerName: String
+    customerPhone: String
+    customerEmail: String
   }
 
   # root type
   type Query {
     hellos: [hello]
-    tickets(tripRoute_id: String, user_id: String): [ticket]
+    tickets(tripRoute_id: String): [ticket]
     ticket(_id: String): ticket
   }
 
   type Mutation {
-    addTicket(seatNumber: Int!, tripRoute_id: String!, user_id: String!): ticket
+    addTicket(seatNumber: Int!, tripRoute_id: String!, customerName: String!, customerPhone: String!, customerEmail: String): ticket
     updateTicketStatus(_id: String!, status: String!): ticket
     removeTicket(_id: String!): ticket
   }

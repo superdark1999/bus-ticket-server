@@ -13,4 +13,6 @@ router.delete("/:id", tripRoutesController.deleteTripRoute);
 
 router.get("/search", tripRoutesController.searchTripRoute);
 
+router.get("/trip-route/:id", tripRoutesController.getTripRouteById);
+
 export default router;

@@ -107,11 +107,46 @@ const searchTripRoute = async (origin, destination, departureDate) => {
   }
 }
 
+const getTripRouteById = async (id) => {
+  try{
+    const tripRoute = await tripRoutes.findById(id);
+    
+    if(!tripRoute){
+      return;
+    }
+
+    const coach = ((await axios.get(`${process.env.COACH_SERVICE_URL}/coach/id/${tripRoute.coach_id}`))).data.coach;
+    const trip = (await axios.get(`${process.env.TRIP_SERVICE_URL}/trip/${tripRoute.trip_id}`)).data.trip;
+
+    // create full data and return
+    const result = {
+      id: tripRoute.id,
+          departureTime: tripRoute.departureTime,
+          arrivalTime: tripRoute.arrivalTime,
+          bookedSeat: tripRoute.bookedSeat,
+          trip_id: tripRoute.trip_id,
+          origin: trip.origin,
+          destination: trip.destination,
+          duration: trip.duration,
+          price: trip.price,
+          coach_id: tripRoute.coach_id,
+          model: coach.model,
+          capacity: coach.capacity,
+          registrationNumber: coach.registrationNumber
+    }
+    return result;
+  }
+  catch(error){
+    throw(error);
+  }
+}
+
 
 export default {
   createNewTripRoute,
   getTripRoutes,
   updateTripRoute,
   deleteTripRoute,
-  searchTripRoute
+  searchTripRoute,
+  getTripRouteById
 };
