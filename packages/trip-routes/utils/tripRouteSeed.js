@@ -14,8 +14,8 @@ export default async function tripRoutesSeed() {
   }
 
   // seed data for coach
-  const tripList = (await axios.get("http://localhost:8081/trip/?1000")).data.results;
-  const coachList = (await axios.get("http://localhost:8083/coach/list")).data.coachList;
+  const tripList = (await axios.get(`${process.env.TRIP_SERVICE_URL}/trip/?1000`)).data.results;
+  const coachList = (await axios.get(`${process.env.COACH_SERVICE_URL}/coach/list`)).data.coachList;
   const tripRoutesData = [];
 
   for (let i = 0; i < 15; i++) {
