@@ -27,7 +27,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addTicket(seatNumber: Int!, tripRoute_id: String!, customerName: String!, customerPhone: String!, customerEmail: String): ticket
+    addTicket(seatNumberList: [Int!]!, tripRoute_id: String!, customerName: String!, customerPhone: String!, customerEmail: String): [ticket]
     updateTicketStatus(_id: String!, status: String!): ticket
     removeTicket(_id: String!): ticket
   }

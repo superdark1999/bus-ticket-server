@@ -25,7 +25,7 @@ const ticketService = {
     },
 
     // creat new ticket
-    addTicket: async (seatNumber, tripRoute_id, customerName, customerPhone, customerEmail) => {
+    addTicket: async (seatNumberList, tripRoute_id, customerName, customerPhone, customerEmail) => {
         try{
             // check trip route
             const tripRoute = await axios.get(`${process.env.TRIP_ROUTE_SERVICE_URL}/trip-route/${tripRoute_id}`)
@@ -40,57 +40,63 @@ const ticketService = {
 
             // check seat in trip route
             const bookedSeat = tripRoute.data.tripRoute.bookedSeat;
-            if(bookedSeat[seatNumber]){
-                return new GraphQLError('seat number is already booked');
+            for(const seatNumber of seatNumberList){
+                if(bookedSeat[seatNumber]){
+                    return new GraphQLError(JSON.stringify({message: 'seat number is already booked', seatNumber}));
+                }
             }
-
+            
             // update seat on trip route
             const newBookedSeat = [...bookedSeat];
-            newBookedSeat[seatNumber] = true;
+            for(const seatNumber of seatNumberList){
+                newBookedSeat[seatNumber] = true;
+            }
             const data = {
                 id: tripRoute_id,
                 bookedSeat: newBookedSeat
             }
             await axios.put(`${process.env.TRIP_ROUTE_SERVICE_URL}/${tripRoute_id}`, data);
 
-            const bookingDate = Date.now();
-            const status = "Còn hạn";
+            // add ticket to db
+            const ticketList = [];
+            for(const seatNumber of seatNumberList){
+                const ticket = new tickets({
+                    seatNumber,
+                    bookingDate: Date.now(),
+                    status: "Còn hạn",
+                    tripRoute_id,
+                    customerName,
+                    customerPhone,
+                    customerEmail            
+                });
 
-            const ticket = new tickets({
-                seatNumber,
-                bookingDate,
-                status,
-                tripRoute_id,
-                customerName,
-                customerPhone,
-                customerEmail            
-            });
-
-            const newTicket = await ticket.save();
-
-            const result = {
-                id: newTicket.id,
-                seatNumber: newTicket.seatNumber,
-                bookingDate: newTicket.bookingDate,
-                status : newTicket.status,
-                customerName: newTicket.customerName,
-                customerPhone: newTicket.customerPhone,
-                customerEmail: newTicket.customerEmail, 
-                tripRoute_id: newTicket.tripRoute_id,
-                departureTime: tripRoute.data.tripRoute.departureTime,
-                arrivalTime: tripRoute.data.tripRoute.arrivalTime,
-                trip_id: tripRoute.data.tripRoute.trip_id,
-                origin: tripRoute.data.tripRoute.origin,
-                destination: tripRoute.data.tripRoute.destination,
-                duration: tripRoute.data.tripRoute.duration,
-                price: tripRoute.data.tripRoute.price,
-                coach_id: tripRoute.data.tripRoute.coach_id,
-                model: tripRoute.data.tripRoute.model,
-                capacity: tripRoute.data.tripRoute.capcity,
-                registrationNumber: tripRoute.data.tripRoute.registrationNumber,
+                const newTicket = await ticket.save();
+                ticketList.push(newTicket);
             }
+            
+            // const result = {
+            //     id: newTicket.id,
+            //     seatNumber: newTicket.seatNumber,
+            //     bookingDate: newTicket.bookingDate,
+            //     status : newTicket.status,
+            //     customerName: newTicket.customerName,
+            //     customerPhone: newTicket.customerPhone,
+            //     customerEmail: newTicket.customerEmail, 
+            //     tripRoute_id: newTicket.tripRoute_id,
+            //     departureTime: tripRoute.data.tripRoute.departureTime,
+            //     arrivalTime: tripRoute.data.tripRoute.arrivalTime,
+            //     trip_id: tripRoute.data.tripRoute.trip_id,
+            //     origin: tripRoute.data.tripRoute.origin,
+            //     destination: tripRoute.data.tripRoute.destination,
+            //     duration: tripRoute.data.tripRoute.duration,
+            //     price: tripRoute.data.tripRoute.price,
+            //     coach_id: tripRoute.data.tripRoute.coach_id,
+            //     model: tripRoute.data.tripRoute.model,
+            //     capacity: tripRoute.data.tripRoute.capcity,
+            //     registrationNumber: tripRoute.data.tripRoute.registrationNumber,
+            // }
 
-            return newTicket;
+            return ticketList;
         }
         catch(error){
             console.log(error);
