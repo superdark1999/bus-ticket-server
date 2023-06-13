@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon --experimental-specifier-resolution=node -r dotenv/config --no-warnings index.js",
+    "start:coach": "nodemon --experimental-specifier-resolution=node -r dotenv/config --no-warnings index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

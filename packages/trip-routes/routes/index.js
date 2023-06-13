@@ -3,6 +3,6 @@ import tripRouteRouters from "./tripRoute.route";
 
 const router = new Router();
 
-router.use("/", tripRouteRouters);
+router.use("/trip-route", tripRouteRouters);
 
 export default router;
