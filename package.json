@@ -9,7 +9,11 @@
     "start": "lerna run start --parallel",
     "start:user": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope user --stream dev",
     "build:user": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope user --stream build",
-    "run:build:user": "lerna run start --scope user"
+    "run:build:user": "lerna run start --scope user",
+    "start:trip": "cd ./packages/trip && yarn start",
+    "start:booking": "cd ./packages/booking && yarn start",
+    "start:coach": "cd ./packages/coach-restful && yarn start",
+    "start:route": "cd ./packages/trip-routes && yarn start"
   },
   "devDependencies": {
     "lerna": "^6.4.1"
