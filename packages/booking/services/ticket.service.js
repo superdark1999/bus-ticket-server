@@ -44,7 +44,7 @@ const ticketService = {
     try {
       // check trip route
       const tripRoute = await axios
-        .get(`${process.env.TRIP_ROUTE_SERVICE_URL}/trip-route/${tripRoute_id}`)
+        .get(`${process.env.TRIP_ROUTE_SERVICE_URL}/trip-route/trip-route/${tripRoute_id}`)
         .then((res) => res)
         .catch((res) => {
           return false;
