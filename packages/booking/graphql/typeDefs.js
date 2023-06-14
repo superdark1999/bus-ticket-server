@@ -22,7 +22,7 @@ const typeDefs = gql`
   # root type
   type Query {
     hellos: [hello]
-    tickets(tripRoute_id: String): [ticket]
+    tickets(tripRoute_id: String, customerPhone: String, customerEmail:String): [ticket]
     ticket(_id: String): ticket
   }
 

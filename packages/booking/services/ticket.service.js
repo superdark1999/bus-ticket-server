@@ -6,11 +6,19 @@ dotenv.config();
 
 const ticketService = {
   // get ticket list
-  getTicketList: async (tripRoute_id) => {
+  getTicketList: async (tripRoute_id, customerPhone, customerEmail) => {
     const query = {};
 
     if (tripRoute_id) {
       query.tripRoute_id = tripRoute_id;
+    }
+
+    if (customerPhone){
+      query.customerPhone = customerPhone;
+    }
+
+    if (customerEmail){
+      query.customerEmail = customerEmail;
     }
 
     const ticketList = await tickets.find(query);

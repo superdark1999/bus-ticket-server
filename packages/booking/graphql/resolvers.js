@@ -16,7 +16,7 @@ const resolvers = {
     Query: {
         hellos: () => hellos,
         tickets: async (parent, args, contextValue, info) => {
-            return await ticketService.getTicketList(args.tripRoute_id);
+            return await ticketService.getTicketList(args.tripRoute_id, args.customerPhone, args.customerEmail);
         }, 
         ticket: async (parent, args, contextValue, info)  => {
             return await ticketService.getTicketById(args._id);
