@@ -65,7 +65,7 @@ router.post("/create_payment_url", function (req, res, next) {
   vnpUrl2 += "?" + querystring.stringify(vnp_Params, { encode: false });
   console.log("🚀 ~ file: payment.js:66 ~ vnpUrl2:", vnpUrl2);
 
-  res.redirect(vnpUrl2);
+  res.status(200).send(vnpUrl2);
 });
 
 router.get("/vnpay_return", function (req, res, next) {
@@ -79,7 +79,6 @@ router.get("/vnpay_return", function (req, res, next) {
   vnp_Params = sortObject(vnp_Params);
 
   let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require("crypto");
   let hmac = crypto.createHmac("sha512", secretKey);
   let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
 
