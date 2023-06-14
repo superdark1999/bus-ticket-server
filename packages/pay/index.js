@@ -10,7 +10,9 @@ const bootstrap = async () => {
 
   const server = http.createServer(app);
   const io = new Server(server, {
-    // options
+    cors: {
+      origin: "http://www.busticket.net.eu.org:8086",
+    },
   });
   io.on("connection", (socket) => {
     console.log("a user connected");
