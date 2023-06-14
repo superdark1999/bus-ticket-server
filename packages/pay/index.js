@@ -11,7 +11,7 @@ const bootstrap = async () => {
   const server = http.createServer(app);
   const io = new Server(server, {
     cors: {
-      origin: "http://www.busticket.net.eu.org:8086",
+      origin: "http://www.busticket.net.eu.org",
     },
   });
   io.on("connection", (socket) => {
