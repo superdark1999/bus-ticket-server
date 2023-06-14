@@ -54,7 +54,8 @@ router.post("/create_payment_url", function (req, res, next) {
   if (bankCode !== null && bankCode !== "") {
     vnp_Params["vnp_BankCode"] = bankCode;
   }
-
+  const io = req.app.get("socketio");
+  io.emit("payment", null);
   vnp_Params = sortObject(vnp_Params);
 
   let signData = querystring.stringify(vnp_Params, { encode: false });
@@ -83,10 +84,10 @@ router.get("/vnpay_return", function (req, res, next) {
   const io = req.app.get("socketio");
   if (secureHash === signed) {
     //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-    io.to("payment").emit(vnp_Params["vnp_ResponseCode"]);
+    io.emit("payment", vnp_Params["vnp_ResponseCode"]);
     // res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
   } else {
-    io.to("payment").emit(97);
+    io.emit("payment", 97);
   }
   res.status(200).send("");
 });
