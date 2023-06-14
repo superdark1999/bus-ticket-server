@@ -70,7 +70,7 @@ const ticketService = {
       };
 
       await axios.put(
-        `${process.env.TRIP_ROUTE_SERVICE_URL}/${tripRoute_id}`,
+        `${process.env.TRIP_ROUTE_SERVICE_URL}/trip-route/trip-route/${tripRoute_id}`,
         data
       );
 
