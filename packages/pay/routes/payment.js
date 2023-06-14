@@ -63,7 +63,6 @@ router.post("/create_payment_url", function (req, res, next) {
   vnp_Params["vnp_SecureHash"] = signed;
   let vnpUrl2 = vnpUrl;
   vnpUrl2 += "?" + querystring.stringify(vnp_Params, { encode: false });
-  console.log("🚀 ~ file: payment.js:66 ~ vnpUrl2:", vnpUrl2);
 
   res.status(200).send(vnpUrl2);
 });
@@ -81,14 +80,13 @@ router.get("/vnpay_return", function (req, res, next) {
   let signData = querystring.stringify(vnp_Params, { encode: false });
   let hmac = crypto.createHmac("sha512", secretKey);
   let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
-
+  const io = req.app.get("socketio");
   if (secureHash === signed) {
     //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-    console.log("abc");
+    io.to("payment").emit(vnp_Params["vnp_ResponseCode"]);
     // res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
   } else {
-    console.log("abcx");
-    // res.render("success", { code: "97" });
+    io.to("payment").emit(97);
   }
 });
 
