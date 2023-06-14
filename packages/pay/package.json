@@ -1,0 +1,44 @@
+{
+  "name": "@bus-ticket-server/payment-routes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon --experimental-specifier-resolution=node -r dotenv/config --no-warnings index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "await": "^0.2.6",
+    "body-parser": "~1.17.1",
+    "config": "^1.31.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "dateformat": "^2.2.0",
+    "debug": "^3.2.6",
+    "express": "^4.18.2",
+    "express-promise-router": "^4.1.1",
+    "jade": "~1.11.0",
+    "jquery": "^3.4.0",
+    "kafkajs": "^2.2.4",
+    "md5": "^2.2.1",
+    "moment": "^2.29.4",
+    "mongoose": "^7.0.3",
+    "morgan": "~1.8.1",
+    "node-fetch": "^2.6.9",
+    "qs": "^6.7.0",
+    "request": "^2.88.2",
+    "rxjs": "^7.8.0",
+    "serve-favicon": "^2.4.5",
+    "set-tz": "^0.2.0",
+    "sha256": "^0.2.0",
+    "shared": "^0.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "eslint-plugin-import": "^2.27.5"
+  }
+}
