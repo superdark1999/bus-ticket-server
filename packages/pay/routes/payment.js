@@ -88,6 +88,7 @@ router.get("/vnpay_return", function (req, res, next) {
   } else {
     io.to("payment").emit(97);
   }
+  res.status(200).send("");
 });
 
 router.get("/vnpay_ipn", function (req, res) {
