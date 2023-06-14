@@ -6,11 +6,19 @@ dotenv.config();
 
 const ticketService = {
   // get ticket list
-  getTicketList: async (tripRoute_id) => {
+  getTicketList: async (tripRoute_id, customerPhone, customerEmail) => {
     const query = {};
 
     if (tripRoute_id) {
       query.tripRoute_id = tripRoute_id;
+    }
+
+    if (customerPhone){
+      query.customerPhone = customerPhone;
+    }
+
+    if (customerEmail){
+      query.customerEmail = customerEmail;
     }
 
     const ticketList = await tickets.find(query);
@@ -70,7 +78,7 @@ const ticketService = {
       };
 
       await axios.put(
-        `${process.env.TRIP_ROUTE_SERVICE_URL}/${tripRoute_id}`,
+        `${process.env.TRIP_ROUTE_SERVICE_URL}/trip-route/trip-route/${tripRoute_id}`,
         data
       );
 
