@@ -7,19 +7,16 @@ dotenv.config();
 const ticketService = {
   // get ticket list
   getTicketList: async (tripRoute_id, customerPhone, customerEmail) => {
+    // prevent get all ticket
+    if (!(tripRoute_id || customerEmail || customerPhone)) return [];
+
     const query = {};
 
-    if (tripRoute_id) {
-      query.tripRoute_id = tripRoute_id;
-    }
+    if (tripRoute_id) query.tripRoute_id = tripRoute_id;
 
-    if (customerPhone){
-      query.customerPhone = customerPhone;
-    }
+    if (customerPhone) query.customerPhone = customerPhone;
 
-    if (customerEmail){
-      query.customerEmail = customerEmail;
-    }
+    if (customerEmail) query.customerEmail = customerEmail;
 
     const ticketList = await tickets.find(query);
     console.log(ticketList);
@@ -44,7 +41,9 @@ const ticketService = {
     try {
       // check trip route
       const tripRoute = await axios
-        .get(`${process.env.TRIP_ROUTE_SERVICE_URL}/trip-route/trip-route/${tripRoute_id}`)
+        .get(
+          `${process.env.TRIP_ROUTE_SERVICE_URL}/trip-route/trip-route/${tripRoute_id}`
+        )
         .then((res) => res)
         .catch((res) => {
           return false;
